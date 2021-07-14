@@ -59,10 +59,10 @@ class _MyAppState extends State<MyApp> {
           responseString3.text.trim()
         ];
       } catch (e) {
-        return ['ERROR!'];
+        return ['', '', 'ERROR!'];
       }
     } else {
-      return ['ERROR: ${response.statusCode}.'];
+      return ['', '', 'ERROR: ${response.statusCode}.'];
     }
   }
 
