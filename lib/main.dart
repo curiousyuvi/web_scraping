@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 void main() => runApp(MaterialApp(
     theme: ThemeData(
       accentColor: Colors.green,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.green[100],
       primaryColor: Colors.green,
     ),
     home: MyApp()));
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
-            SizedBox(height: 50),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
             MaterialButton(
               onPressed: () async {
                 setState(() {
