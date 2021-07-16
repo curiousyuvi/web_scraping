@@ -18,17 +18,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  //Strings to store the extracted Article titles
   String result1 = 'Result 1';
   String result2 = 'Result 2';
   String result3 = 'Result 3';
+  //boolean to show CircularProgressIndication while Web Scraping awaits
   bool isLoading = false;
 
   Future<List<String>> extractData() async {
+//Getting the response from the targeted url
     final response =
         await http.Client().get(Uri.parse('https://www.geeksforgeeks.org/'));
+    //Status Code 200 means response has been received successfully
     if (response.statusCode == 200) {
+      //Getting the html document from the response
       var document = parser.parse(response.body);
       try {
+        //Scraping the first article title
         var responseString1 = document
             .getElementsByClassName('articles-list')[0]
             .children[0]
@@ -37,6 +43,7 @@ class _MyAppState extends State<MyApp> {
 
         print(responseString1.text.trim());
 
+        //Scraping the second article title
         var responseString2 = document
             .getElementsByClassName('articles-list')[0]
             .children[1]
@@ -45,6 +52,7 @@ class _MyAppState extends State<MyApp> {
 
         print(responseString2.text.trim());
 
+        //Scraping the third article title
         var responseString3 = document
             .getElementsByClassName('articles-list')[0]
             .children[2]
@@ -52,7 +60,7 @@ class _MyAppState extends State<MyApp> {
             .children[0];
 
         print(responseString3.text.trim());
-
+        //Converting the extracted titles into string and returning a list of Strings
         return [
           responseString1.text.trim(),
           responseString2.text.trim(),
@@ -76,6 +84,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //if isLoading is true show loader else show Column of Texts
             isLoading
                 ? CircularProgressIndicator()
                 : Column(
@@ -100,10 +109,15 @@ class _MyAppState extends State<MyApp> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.08),
             MaterialButton(
               onPressed: () async {
+                //Setting isLoading true to show the loader
                 setState(() {
                   isLoading = true;
                 });
+
+                //Awaiting for web scraping function to return list of strings
                 final response = await extractData();
+
+                //Setting the received strings to be displayed and making isLoading false to hide the loader
                 setState(() {
                   result1 = response[0];
                   result2 = response[1];
